@@ -11,8 +11,8 @@
 
 vec2 normalizeST(vec2 uv) {
     vec2 st = uv / iResolution.xy;
-    st.x *= iResolution.x / iResolution.y;
     st -= vec2(0.5);
+    st.x *= iResolution.x / iResolution.y;
     st *= 2.0;
     return st;
 }

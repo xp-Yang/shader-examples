@@ -1,4 +1,4 @@
-float random (vec2 st) {
+float random(vec2 st) {
     return fract(sin(dot(st.xy,
                          vec2(12.9898,78.233)))
                  * 43758.5453123);
@@ -12,7 +12,7 @@ vec2 random2(vec2 st){
 
 // 2D Noise based on Morgan McGuire @morgan3d
 // https://www.shadertoy.com/view/4dS3Wd
-float valueNoise (in vec2 st) {
+float valueNoise(vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
 
@@ -53,6 +53,21 @@ float gradientNoise(vec2 st) {
 
     return mix( mix( dot_a, dot_b, u.x),
                 mix( dot_c, dot_d, u.x), u.y) * 0.5 + 0.5;
+}
+
+float fbm(vec2 st, float Hurst) {
+    const int numOctaves = 6;
+    float G = exp2(-Hurst);
+    float f = 1.0;
+    float a = 1.0;
+    float value = 0.0;
+    for( int i=0; i<numOctaves; i++ )
+    {
+        value += a*gradientNoise(f*st);
+        f *= 2.0;
+        a *= G;
+    }
+    return value;
 }
 
 mat3 rotate2d(float angle) {
